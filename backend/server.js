@@ -26,8 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Database connection
 const db = require('./config/database');
+const { syncDatabase } = require('./models');
+
 db.authenticate()
-  .then(() => console.log('✅ Database connected'))
+  .then(() => {
+    console.log('✅ Database connected');
+    return syncDatabase();
+  })
   .catch(err => console.error('❌ Database connection error:', err));
 
 // Routes
@@ -73,6 +78,35 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📡 Socket.IO enabled for real-time updates`);
+});
+
+// Handle port already in use error
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use!`);
+    console.error(`💡 Run: lsof -ti:${PORT} | xargs kill -9`);
+    process.exit(1);
+  } else {
+    console.error('❌ Server error:', err);
+    process.exit(1);
+  }
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('\n👋 SIGINT received, shutting down gracefully');
+  server.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
+  });
 });
 
 module.exports = { app, io };

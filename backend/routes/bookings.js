@@ -11,11 +11,17 @@ router.get('/availability/:date', async (req, res) => {
     const { date } = req.params;
     const { guests } = req.query;
 
-    // Check cache first
+    // Check cache first (only if Redis is connected)
     const cacheKey = `availability:${date}:${guests || 'all'}`;
-    const cached = await redisClient.get(cacheKey);
-    if (cached) {
-      return res.json(JSON.parse(cached));
+    if (redisClient.isReady) {
+      try {
+        const cached = await redisClient.get(cacheKey);
+        if (cached) {
+          return res.json(JSON.parse(cached));
+        }
+      } catch (err) {
+        // Ignore cache errors, continue without cache
+      }
     }
 
     const tables = await Table.findAll({
@@ -42,8 +48,14 @@ router.get('/availability/:date', async (req, res) => {
       }))
     }));
 
-    // Cache for 5 minutes
-    await redisClient.setEx(cacheKey, 300, JSON.stringify(availability));
+    // Cache for 5 minutes (only if Redis is connected)
+    if (redisClient.isReady) {
+      try {
+        await redisClient.setEx(cacheKey, 300, JSON.stringify(availability));
+      } catch (err) {
+        // Ignore cache errors
+      }
+    }
 
     res.json(availability);
   } catch (error) {
@@ -98,14 +110,21 @@ router.post('/', async (req, res) => {
       await booking.update({ confirmationSent: true });
     } catch (emailError) {
       console.error('Email send failed:', emailError);
+      // Continue without email - booking is still valid
     }
 
     // Emit real-time update
     const io = req.app.get('io');
     io.to('booking-updates').emit('new-booking', { date: bookingDate, tableId });
 
-    // Invalidate cache
-    await redisClient.del(`availability:${bookingDate}:all`);
+    // Invalidate cache (only if Redis is connected)
+    if (redisClient.isReady) {
+      try {
+        await redisClient.del(`availability:${bookingDate}:all`);
+      } catch (err) {
+        // Ignore cache errors
+      }
+    }
 
     res.status(201).json(fullBooking);
   } catch (error) {
@@ -144,8 +163,14 @@ router.patch('/:id/cancel', async (req, res) => {
       tableId: booking.tableId 
     });
 
-    // Invalidate cache
-    await redisClient.del(`availability:${booking.bookingDate}:all`);
+    // Invalidate cache (only if Redis is connected)
+    if (redisClient.isReady) {
+      try {
+        await redisClient.del(`availability:${booking.bookingDate}:all`);
+      } catch (err) {
+        // Ignore cache errors
+      }
+    }
 
     res.json(booking);
   } catch (error) {

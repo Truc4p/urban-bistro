@@ -1,7 +1,11 @@
-const { Table, MenuItem } = require('../models');
+const { Table, MenuItem, syncDatabase } = require('../models');
 
 async function seed() {
   try {
+    // Sync database to create tables
+    await syncDatabase();
+    console.log('✅ Database synced');
+    
     // Create tables
     await Table.bulkCreate([
       { name: 'Table 1', capacity: 2, location: 'Window' },
