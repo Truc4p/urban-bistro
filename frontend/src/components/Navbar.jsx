@@ -6,34 +6,36 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext)
 
   return (
-    <nav className="bg-primary text-white shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-2xl font-bold">Urban Bistro</Link>
+    <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-center h-20">
+          <Link to="/" className="font-serif text-3xl font-bold text-primary tracking-tight hover:text-secondary transition-colors">
+            Urban <span className="text-secondary">Bistro</span>
+          </Link>
           
-          <div className="flex gap-6 items-center">
-            <Link to="/" className="hover:text-secondary transition">Home</Link>
-            <Link to="/menu" className="hover:text-secondary transition">Menu</Link>
-            <Link to="/booking" className="hover:text-secondary transition">Book Table</Link>
+          <div className="flex gap-8 items-center">
+            <Link to="/" className="text-sm font-medium tracking-wide uppercase text-gray-700 hover:text-secondary transition-colors">Home</Link>
+            <Link to="/menu" className="text-sm font-medium tracking-wide uppercase text-gray-700 hover:text-secondary transition-colors">Menu</Link>
+            <Link to="/booking" className="text-sm font-medium tracking-wide uppercase text-gray-700 hover:text-secondary transition-colors">Reservations</Link>
             
             {user ? (
               <>
-                <Link to="/my-bookings" className="hover:text-secondary transition">My Bookings</Link>
+                <Link to="/my-bookings" className="text-sm font-medium tracking-wide uppercase text-gray-700 hover:text-secondary transition-colors">My Bookings</Link>
                 <button 
                   onClick={logout}
-                  className="bg-secondary px-4 py-2 rounded hover:bg-opacity-80 transition"
+                  className="bg-primary text-white px-6 py-2.5 rounded-none text-sm font-semibold tracking-wider uppercase hover:bg-secondary transition-all duration-300"
                 >
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="hover:text-secondary transition">Login</Link>
+                <Link to="/login" className="text-sm font-medium tracking-wide uppercase text-gray-700 hover:text-secondary transition-colors">Login</Link>
                 <Link 
                   to="/register" 
-                  className="bg-secondary px-4 py-2 rounded hover:bg-opacity-80 transition"
+                  className="bg-secondary text-primary px-6 py-2.5 rounded-none text-sm font-semibold tracking-wider uppercase hover:bg-opacity-90 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
-                  Sign Up
+                  Reserve Now
                 </Link>
               </>
             )}
