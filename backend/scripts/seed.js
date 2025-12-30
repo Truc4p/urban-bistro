@@ -6,6 +6,11 @@ async function seed() {
     await syncDatabase();
     console.log('✅ Database synced');
     
+    // Clear existing data
+    await MenuItem.destroy({ where: {} });
+    await Table.destroy({ where: {} });
+    console.log('🗑️  Cleared existing data');
+    
     // Create tables
     await Table.bulkCreate([
       { name: 'Table 1', capacity: 2, location: 'Window' },
@@ -26,7 +31,8 @@ async function seed() {
         category: 'appetizer',
         price: 12.99,
         isAvailable: true,
-        allergens: ['dairy', 'gluten']
+        allergens: ['dairy', 'gluten'],
+        imageUrl: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800&q=80'
       },
       {
         name: 'Bruschetta',
@@ -34,7 +40,8 @@ async function seed() {
         category: 'appetizer',
         price: 10.99,
         isAvailable: true,
-        allergens: ['gluten']
+        allergens: ['gluten'],
+        imageUrl: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&q=80'
       },
       {
         name: 'Grilled Salmon',
@@ -42,7 +49,8 @@ async function seed() {
         category: 'main',
         price: 28.99,
         isAvailable: true,
-        allergens: ['fish']
+        allergens: ['fish'],
+        imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80'
       },
       {
         name: 'Ribeye Steak',
@@ -50,7 +58,8 @@ async function seed() {
         category: 'main',
         price: 38.99,
         isAvailable: true,
-        allergens: []
+        allergens: [],
+        imageUrl: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&q=80'
       },
       {
         name: 'Pasta Carbonara',
@@ -58,7 +67,8 @@ async function seed() {
         category: 'main',
         price: 22.99,
         isAvailable: true,
-        allergens: ['dairy', 'gluten', 'eggs']
+        allergens: ['dairy', 'gluten', 'eggs'],
+        imageUrl: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&q=80'
       },
       {
         name: 'Tiramisu',
@@ -66,7 +76,8 @@ async function seed() {
         category: 'dessert',
         price: 9.99,
         isAvailable: true,
-        allergens: ['dairy', 'eggs', 'gluten']
+        allergens: ['dairy', 'eggs', 'gluten'],
+        imageUrl: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80'
       },
       {
         name: 'Chocolate Lava Cake',
@@ -74,7 +85,8 @@ async function seed() {
         category: 'dessert',
         price: 11.99,
         isAvailable: true,
-        allergens: ['dairy', 'eggs', 'gluten']
+        allergens: ['dairy', 'eggs', 'gluten'],
+        imageUrl: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=800&q=80'
       },
       {
         name: 'Red Wine',
@@ -82,7 +94,8 @@ async function seed() {
         category: 'beverage',
         price: 8.99,
         isAvailable: true,
-        allergens: []
+        allergens: [],
+        imageUrl: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80'
       },
       {
         name: 'Craft Beer',
@@ -90,7 +103,8 @@ async function seed() {
         category: 'beverage',
         price: 6.99,
         isAvailable: true,
-        allergens: ['gluten']
+        allergens: ['gluten'],
+        imageUrl: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80'
       },
       {
         name: "Chef's Special",
@@ -98,7 +112,8 @@ async function seed() {
         category: 'special',
         price: 45.99,
         isAvailable: true,
-        allergens: []
+        allergens: [],
+        imageUrl: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80'
       }
     ]);
 

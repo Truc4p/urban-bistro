@@ -5,8 +5,15 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative bg-gradient-dark text-white py-32 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute inset-0 opacity-10" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80" 
+            alt="Elegant restaurant interior" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 opacity-10" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
         ></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <div className="inline-block border border-secondary/30 px-4 py-1.5 rounded-full mb-6">
@@ -43,32 +50,62 @@ export default function Home() {
           <div className="w-24 h-1 bg-secondary mx-auto mt-4"></div>
         </div>
         <div className="grid md:grid-cols-3 gap-10">
-          <div className="card-elegant text-center p-10 group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+          <div className="card-elegant overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+            <div className="relative h-64 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" 
+                alt="Gourmet cuisine" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             </div>
-            <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Gourmet Cuisine</h3>
-            <p className="text-gray-600 leading-relaxed">Artfully crafted dishes by our award-winning chefs using the finest ingredients</p>
+            <div className="text-center p-10">
+              <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 -mt-16 relative z-10 shadow-xl">
+                <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Gourmet Cuisine</h3>
+              <p className="text-gray-600 leading-relaxed">Artfully crafted dishes by our award-winning chefs using the finest ingredients</p>
+            </div>
           </div>
-          <div className="card-elegant text-center p-10 group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="card-elegant overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+            <div className="relative h-64 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" 
+                alt="Restaurant booking" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             </div>
-            <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Seamless Reservations</h3>
-            <p className="text-gray-600 leading-relaxed">Real-time table availability with instant confirmations for your convenience</p>
+            <div className="text-center p-10">
+              <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 -mt-16 relative z-10 shadow-xl">
+                <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Seamless Reservations</h3>
+              <p className="text-gray-600 leading-relaxed">Real-time table availability with instant confirmations for your convenience</p>
+            </div>
           </div>
-          <div className="card-elegant text-center p-10 group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
+          <div className="card-elegant overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+            <div className="relative h-64 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" 
+                alt="Premium dining ambiance" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             </div>
-            <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Premium Ambiance</h3>
-            <p className="text-gray-600 leading-relaxed">Sophisticated atmosphere with impeccable service and attention to detail</p>
+            <div className="text-center p-10">
+              <div className="w-20 h-20 bg-cream border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 -mt-16 relative z-10 shadow-xl">
+                <svg className="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-2xl font-bold mb-3 text-primary">Premium Ambiance</h3>
+              <p className="text-gray-600 leading-relaxed">Sophisticated atmosphere with impeccable service and attention to detail</p>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +114,7 @@ export default function Home() {
       <div className="bg-primary text-white py-20 md:py-28">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="order-2 md:order-1">
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">A Culinary Journey</h2>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
                 At Urban Bistro, we believe dining is an art form. Each dish tells a story, combining traditional techniques with contemporary innovation.
@@ -88,6 +125,16 @@ export default function Home() {
               <Link to="/menu" className="btn-primary inline-block">
                 Explore Our Menu
               </Link>
+            </div>
+            <div className="order-1 md:order-2">
+              <div className="relative group">
+                <div className="absolute -inset-4 bg-secondary/20 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80" 
+                  alt="Exquisite culinary presentation" 
+                  className="relative rounded-lg shadow-2xl w-full h-[400px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-secondary/20">
