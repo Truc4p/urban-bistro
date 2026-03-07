@@ -117,10 +117,14 @@ router.post('/', async (req, res) => {
     const io = req.app.get('io');
     io.to('booking-updates').emit('new-booking', { date: bookingDate, tableId });
 
-    // Invalidate cache (only if Redis is connected)
+    // Invalidate ALL availability caches for this date (including all guest variations)
     if (redisClient.isReady) {
       try {
-        await redisClient.del(`availability:${bookingDate}:all`);
+        // Delete all cache keys matching this date pattern
+        const keys = await redisClient.keys(`availability:${bookingDate}:*`);
+        if (keys.length > 0) {
+          await redisClient.del(keys);
+        }
       } catch (err) {
         // Ignore cache errors
       }
@@ -163,10 +167,14 @@ router.patch('/:id/cancel', async (req, res) => {
       tableId: booking.tableId 
     });
 
-    // Invalidate cache (only if Redis is connected)
+    // Invalidate ALL availability caches for this date (including all guest variations)
     if (redisClient.isReady) {
       try {
-        await redisClient.del(`availability:${booking.bookingDate}:all`);
+        // Delete all cache keys matching this date pattern
+        const keys = await redisClient.keys(`availability:${booking.bookingDate}:*`);
+        if (keys.length > 0) {
+          await redisClient.del(keys);
+        }
       } catch (err) {
         // Ignore cache errors
       }

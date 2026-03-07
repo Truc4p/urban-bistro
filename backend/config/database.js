@@ -11,8 +11,8 @@ const sequelize = new Sequelize(
     dialect: 'postgres',
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
-      max: 5,
-      min: 0,
+      max: 20,        // Increased from 5 to support 100+ concurrent connections
+      min: 5,         // Increased from 0 to maintain ready connections
       acquire: 30000,
       idle: 10000
     }

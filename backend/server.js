@@ -5,24 +5,58 @@ const morgan = require('morgan');
 const compression = require('compression');
 const http = require('http');
 const { Server } = require('socket.io');
+const { createAdapter } = require('@socket.io/redis-adapter');
+const { createClient } = require('redis');
 require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || 'http://localhost:5175',
     methods: ['GET', 'POST']
   }
 });
 
+// Configure Socket.IO Redis adapter for horizontal scaling
+const setupRedisAdapter = async () => {
+  try {
+    // Create separate Redis clients for Socket.IO pub/sub
+    const pubClient = createClient({
+      socket: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: process.env.REDIS_PORT || 6379,
+      },
+      password: process.env.REDIS_PASSWORD || undefined
+    });
+    
+    const subClient = pubClient.duplicate();
+    
+    await Promise.all([pubClient.connect(), subClient.connect()]);
+    
+    io.adapter(createAdapter(pubClient, subClient));
+    console.log('✅ Socket.IO Redis adapter configured');
+  } catch (err) {
+    console.log('⚠️  Socket.IO running without Redis adapter:', err.message);
+    // Server will continue to work without Redis adapter
+  }
+};
+
+setupRedisAdapter();
+
 // Middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000' }));
+const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5175';
+console.log(`🔐 CORS enabled for origin: ${allowedOrigin}`);
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(compression());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Rate limiting
+const { apiLimiter, authLimiter, bookingLimiter } = require('./middleware/rateLimiter');
+app.use('/api/', apiLimiter); // Apply general rate limiting to all API routes
 
 // Database connection
 const db = require('./config/database');
@@ -36,8 +70,8 @@ db.authenticate()
   .catch(err => console.error('❌ Database connection error:', err));
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/bookings', require('./routes/bookings'));
+app.use('/api/auth', authLimiter, require('./routes/auth'));
+app.use('/api/bookings', bookingLimiter, require('./routes/bookings'));
 app.use('/api/tables', require('./routes/tables'));
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/customers', require('./routes/customers'));
