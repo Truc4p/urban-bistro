@@ -21,15 +21,19 @@ const io = new Server(server, {
 // Configure Socket.IO Redis adapter for horizontal scaling
 const setupRedisAdapter = async () => {
   try {
-    // Create separate Redis clients for Socket.IO pub/sub
-    const pubClient = createClient({
-      socket: {
-        host: process.env.REDIS_HOST || 'localhost',
-        port: process.env.REDIS_PORT || 6379,
-      },
-      password: process.env.REDIS_PASSWORD || undefined
-    });
+    // Support both REDIS_URL connection string and individual variables
+    const redisConfig = process.env.REDIS_URL
+      ? { url: process.env.REDIS_URL }
+      : {
+          socket: {
+            host: process.env.REDIS_HOST || 'localhost',
+            port: process.env.REDIS_PORT || 6379,
+          },
+          password: process.env.REDIS_PASSWORD || undefined
+        };
     
+    // Create separate Redis clients for Socket.IO pub/sub
+    const pubClient = createClient(redisConfig);
     const subClient = pubClient.duplicate();
     
     await Promise.all([pubClient.connect(), subClient.connect()]);
