@@ -122,6 +122,7 @@ app.use('/api/bookings', bookingLimiter, require('./routes/bookings'));
 app.use('/api/tables', require('./routes/tables'));
 app.use('/api/menu', require('./routes/menu'));
 app.use('/api/customers', require('./routes/customers'));
+app.use('/api/admin', require('./routes/admin')); // Temporary admin routes
 
 // Health check
 app.get('/api/health', (req, res) => {
